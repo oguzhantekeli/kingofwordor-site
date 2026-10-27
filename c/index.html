@@ -4,84 +4,12 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="robots" content="noindex" />
-  <title>King of Wordor - Challenge</title>
-  <link rel="icon" href="../icons/favicon.svg" type="image/svg+xml" />
-  <link rel="stylesheet" href="../site.css" />
-  <style>
-    .code { font: 700 2.4rem/1.2 ui-monospace, monospace; letter-spacing: .25em; color: var(--gold); margin: .5rem 0; }
-    .actions { display: flex; flex-wrap: wrap; gap: .75rem; margin: 1rem 0; }
-    .btn { display: inline-block; padding: .75rem 1.25rem; font: inherit; font-weight: 700; text-decoration: none;
-           color: var(--night); background: var(--gold); border: 2px solid #f7e3ae; cursor: pointer; }
-    .btn.ghost { color: var(--gold); background: transparent; border-color: var(--edge); }
-    .hint { color: var(--dim); font-size: .95rem; }
-  </style>
+  <title>King of Wordor - moved</title>
+  <link rel="canonical" href="https://king-of-wordor.github.io/c/" />
+  <meta http-equiv="refresh" content="0; url=https://king-of-wordor.github.io/c/" />
+  <script>location.replace('https://king-of-wordor.github.io/c/' + location.search + location.hash);</script>
 </head>
 <body>
-  <!-- A friend challenge link: …/c/?k=K7QM2X (src/platform/links.ts). On
-       Android, "Open in the game" starts the app on the code; without the
-       app, Android follows the fallback to Google Play. The code stays on the
-       page to type into Duel → With friends. -->
-  <main>
-    <h1>King of Wordor</h1>
-    <section>
-      <h2 id="t-title">A friend challenges you</h2>
-      <p id="t-lead">Play the very same round and see who does best.</p>
-      <p class="code" id="code">------</p>
-      <div class="actions">
-        <a class="btn" id="open" href="#">Open in the game</a>
-        <button class="btn ghost" id="copy" type="button">Copy the code</button>
-      </div>
-      <p class="hint" id="t-steps">No game yet? Install it from Google Play, then enter the code in Duel → With friends.</p>
-      <p><a id="play" href="https://play.google.com/store/apps/details?id=com.kingofwordor.game">Google Play</a></p>
-    </section>
-  </main>
-  <script>
-    (function () {
-      var PLAY = 'https://play.google.com/store/apps/details?id=com.kingofwordor.game';
-      var T = {
-        en: ['A friend challenges you', 'Play the very same round and see who does best.', 'Open in the game', 'Copy the code', 'Copied', 'No game yet? Install it from Google Play, then enter the code in Duel → With friends.', 'This link has no challenge code.'],
-        tr: ['Bir arkadaşın sana meydan okuyor', 'Aynı turu oyna, kimin daha iyi yaptığını gör.', 'Oyunda aç', 'Kodu kopyala', 'Kopyalandı', 'Oyun yüklü değil mi? Google Play\'den kur, sonra kodu Düello → Arkadaşla bölümüne yaz.', 'Bu bağlantıda meydan okuma kodu yok.'],
-        es: ['Un amigo te reta', 'Juega la misma ronda y mira quién lo hace mejor.', 'Abrir en el juego', 'Copiar el código', 'Copiado', '¿Aún no tienes el juego? Instálalo desde Google Play y escribe el código en Duelo → Con amigos.', 'Este enlace no tiene código de reto.'],
-        fr: ['Un ami vous défie', 'Jouez exactement la même manche et voyez qui fait le mieux.', 'Ouvrir dans le jeu', 'Copier le code', 'Copié', 'Pas encore le jeu ? Installez-le depuis Google Play, puis saisissez le code dans Duel → Entre amis.', 'Ce lien ne contient pas de code de défi.'],
-        nl: ['Een vriend daagt je uit', 'Speel precies dezelfde ronde en zie wie het best is.', 'Openen in het spel', 'Code kopiëren', 'Gekopieerd', 'Heb je het spel nog niet? Installeer het via Google Play en vul de code in bij Duel → Met vrienden.', 'Deze link bevat geen uitdagingscode.'],
-        'pt-BR': ['Um amigo desafia você', 'Jogue a mesma rodada e veja quem vai melhor.', 'Abrir no jogo', 'Copiar o código', 'Copiado', 'Ainda não tem o jogo? Instale pelo Google Play e digite o código em Duelo → Com amigos.', 'Este link não tem código de desafio.'],
-        da: ['En ven udfordrer dig', 'Spil præcis samme runde, og se, hvem der klarer sig bedst.', 'Åbn i spillet', 'Kopiér koden', 'Kopieret', 'Har du ikke spillet endnu? Installér det fra Google Play, og skriv koden under Duel → Med venner.', 'Dette link har ingen udfordringskode.']
-      };
-      var langs = (navigator.languages && navigator.languages.length ? navigator.languages : [navigator.language || 'en']);
-      var lang = 'en';
-      for (var i = 0; i < langs.length; i++) {
-        var l = String(langs[i]);
-        if (/^pt/i.test(l)) { lang = 'pt-BR'; break; }
-        var base = l.split('-')[0].toLowerCase();
-        if (T[base]) { lang = base; break; }
-      }
-      var s = T[lang];
-      document.documentElement.lang = lang;
-      document.getElementById('t-title').textContent = s[0];
-      document.getElementById('t-lead').textContent = s[1];
-      document.getElementById('open').textContent = s[2];
-      document.getElementById('copy').textContent = s[3];
-      document.getElementById('t-steps').textContent = s[5];
-
-      // the same 6 characters the server makes: no 0/O, 1/I/L
-      var k = (new URLSearchParams(location.search).get('k') || '').trim().toUpperCase();
-      if (!/^[A-HJKMNP-Z2-9]{6}$/.test(k)) {
-        document.getElementById('code').textContent = s[6];
-        document.getElementById('code').style.fontSize = '1rem';
-        document.getElementById('open').style.display = 'none';
-        document.getElementById('copy').style.display = 'none';
-        return;
-      }
-      document.getElementById('code').textContent = k;
-      var android = /Android/i.test(navigator.userAgent);
-      document.getElementById('open').href = android
-        ? 'intent://c/' + k + '#Intent;scheme=kingofwordor;package=com.kingofwordor.game;S.browser_fallback_url=' + encodeURIComponent(PLAY) + ';end'
-        : 'kingofwordor://c/' + k;
-      document.getElementById('copy').addEventListener('click', function () {
-        var done = function () { document.getElementById('copy').textContent = s[4]; };
-        if (navigator.clipboard) navigator.clipboard.writeText(k).then(done, function () {});
-      });
-    })();
-  </script>
+  <p>King of Wordor has moved to <a href="https://king-of-wordor.github.io/c/">king-of-wordor.github.io</a>.</p>
 </body>
 </html>
